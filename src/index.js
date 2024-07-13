@@ -1,15 +1,20 @@
-// index.js
-
 const express = require("express");
-const app = express();
-const PORT = process.env.PORT || 3000;
+const { Sequelize, DataTypes } = require("sequelize");
+const { User } = require("../db/models");
 
-// Simple route
-app.get("/", (req, res) => {
+const app = express();
+const port = 3000;
+
+// Test the database connection
+User.sequelize
+  .authenticate()
+  .then(() => console.log("Database connected..."))
+  .catch((err) => console.log("Error: " + err));
+
+app.get("/", async (req, res) => {
   res.send("Hello World!");
 });
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`App running on http://localhost:${port}`);
 });
