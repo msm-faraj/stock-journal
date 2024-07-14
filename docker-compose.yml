@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16.2
+    restart: always
+    container_name: postgres-cnt
+    environment:
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_USER: msm-faraj
+      POSTGRES_DB: postgres-dev
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - stocky-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U msm-faraj -d postgres-dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  server:
+    build: ./
+    container_name: server-cnt
+    environment:
+      - DEV_DB_PASSWORD=1234
+      - DEV_DB_DATABASE=postgres-dev
+      - DEV_DB_USERNAME=msm-faraj
+      - DEV_DB_HOST=postgres-cnt
+    networks:
+      - stocky-net
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src:/msm-app/src
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  db:
+    driver: local
+
+networks:
+  stocky-net:
+    driver: bridge
