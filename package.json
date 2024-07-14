@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "cd db && sequelize-cli db:migrate && cd .. && node src/index.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "msm-faraj",
