@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "root",
-    "password": "pass",
-    "database": "database_development",
-    "host": "127.0.0.1",
+    "username": "msm-faraj",
+    "password": "1234",
+    "database": "postgres-dev",
+    "host": "postgres-cnt",
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": "pass",
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": "msm-faraj",
+    "password": "1234",
+    "database": "postgres_test",
+    "host": "postgres-cnt",
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": "pass",
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "username": "msm-faraj",
+    "password": "1234",
+    "database": "postgres-prod",
+    "host": "postgres-cnt",
     "dialect": "postgres"
   }
 }
