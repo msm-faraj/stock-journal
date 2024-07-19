@@ -35,6 +35,7 @@ services:
       - 3000:3000
     volumes:
       - ./src:/msm-app/src
+      - ./db:/msm-app/db
     depends_on:
       postgres:
         condition: service_healthy
