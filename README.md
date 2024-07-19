@@ -1,1 +1,1 @@
-# stocky-api
+# stock-journal

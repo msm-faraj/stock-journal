@@ -14,7 +14,7 @@ services:
     ports:
       - 5432:5432
     networks:
-      - stocky-net
+      - stock-journal-net
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U msm-faraj -d postgres-dev"]
       interval: 10s
@@ -30,7 +30,7 @@ services:
       - DEV_DB_USERNAME=msm-faraj
       - DEV_DB_HOST=postgres-cnt
     networks:
-      - stocky-net
+      - stock-journal-net
     ports:
       - 3000:3000
     volumes:
@@ -44,5 +44,5 @@ volumes:
     driver: local
 
 networks:
-  stocky-net:
+  stock-journal-net:
     driver: bridge
