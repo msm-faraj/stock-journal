@@ -1,7 +1,5 @@
 FROM node:21-alpine
 
-RUN npm install -g nodemon
-
 WORKDIR /msm-app
 
 COPY package*.json ./
