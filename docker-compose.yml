@@ -38,6 +38,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    extra_hosts:
+      - "localhost:host-gateway"
 
 volumes:
   db:
