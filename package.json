@@ -4,18 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "cd db && sequelize-cli db:migrate && cd .. && node src/index.js ",
+    "dev": "sequelize-cli db:migrate  && node src/index.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "msm-faraj",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2",
-    "pg": "^8.12.0",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3"
+    "express": "4.19.2",
+    "pg": "8.12.0",
+    "pg-hstore": "2.3.4",
+    "sequelize": "6.37.3"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.6.2"
+    "sequelize-cli": "6.6.2"
   }
 }
