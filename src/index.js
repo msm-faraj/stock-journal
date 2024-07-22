@@ -22,7 +22,7 @@ Models.User.sequelize
   .catch((err) => console.log("Error: " + err));
 
 app.get("/", async (req, res) => {
-  res.send("Hello World...!");
+  res.send("Hello World...");
 });
 
 app.listen(port, () => {
