@@ -3,7 +3,7 @@
     "username": "msm-faraj",
     "password": "1234",
     "database": "postgres-dev",
-    "host": "localhost",
+    "host": "postgres-cnt",
     "dialect": "postgres"
   },
   "test": {
