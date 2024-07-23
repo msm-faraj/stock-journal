@@ -1,7 +1,7 @@
 const AlphaFinance = require("./alpha.js");
 
 // Example usage
-const testYahooFinance = async (stockName) => {
+const searchWithAlpha = async (stockName) => {
   const finance = new AlphaFinance();
   try {
     const stockData = await finance.getStockData(stockName); // Test with a ticker symbol
@@ -11,4 +11,4 @@ const testYahooFinance = async (stockName) => {
   }
 };
 
-testYahooFinance("AAPL");
+searchWithAlpha("AAPL");

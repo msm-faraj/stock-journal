@@ -19,3 +19,5 @@ class YahooFinance {
     }
   }
 }
+
+module.exports = YahooFinance;
