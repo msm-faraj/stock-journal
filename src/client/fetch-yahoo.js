@@ -1,8 +1,8 @@
 const axios = require("axios");
 
 class YahooFinance {
-  constructor() {
-    this.baseURL = "https://query1.finance.yahoo.com/v7/finance/quote";
+  constructor(baseURL) {
+    this.baseURL = baseURL;
   }
 
   async getStockData(ticker) {

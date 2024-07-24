@@ -1,18 +1,18 @@
 const axios = require("axios");
 
 class AlphaFinance {
-  constructor() {
-    this.baseURL = "https://www.alphavantage.co/query";
-    this.apiKey = "YOUR_ALPHA_VANTAGE_API_KEY"; // Replace with your Alpha Vantage API key
+  constructor({ baseURL, apiKey }) {
+    this.baseURL = baseURL;
+    this.apiKey = apiKey;
   }
 
   async getStockData(ticker) {
     try {
       const response = await axios.get(this.baseURL, {
         params: {
-          function: "TIME_SERIES_INTRADAY", // Choose appropriate function
+          function: "TIME_SERIES_INTRADAY",
           symbol: ticker,
-          interval: "1min", // Interval of the time series data
+          interval: "1min",
           apikey: this.apiKey,
         },
       });

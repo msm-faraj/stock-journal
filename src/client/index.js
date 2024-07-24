@@ -1,14 +1,22 @@
-const AlphaFinance = require("./alpha.js");
+const { alphaFinance, yahooFinance } = require("../config.js");
 
-// Example usage
 const searchWithAlpha = async (stockName) => {
-  const finance = new AlphaFinance();
   try {
-    const stockData = await finance.getStockData(stockName); // Test with a ticker symbol
-    console.log("Stock Data:", stockData);
+    const stockData = await alphaFinance.getStockData(stockName);
+    console.log("Stock Data Alpha: ", stockData);
   } catch (error) {
     console.error("Error:", error);
   }
 };
 
+const searchWithYahoo = async (stockName) => {
+  try {
+    const stockData = await yahooFinance.getStockData(stockName);
+    console.log("Stock Data Yahoo: ", stockData);
+  } catch (error) {
+    console.error("Error: ", error);
+  }
+};
+
 searchWithAlpha("AAPL");
+searchWithYahoo("AAPL");
