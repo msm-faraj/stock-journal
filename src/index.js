@@ -3,6 +3,9 @@ const process = require("process");
 const env = process.env.NODE_ENV || "development";
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelizeConfig = require("./sequelize-config.json")[env];
+const AlphaFinance = require("./client/fetch-alpha");
+const YahooFinance = require("./client/fetch-yahoo");
+const config = require("./config");
 
 const app = express();
 const port = 3000;
@@ -14,6 +17,12 @@ const sequelize = new Sequelize(
   sequelizeConfig
 );
 const Models = require("./models")(sequelize, DataTypes);
+
+const alphaFinance = new AlphaFinance({
+  baseURL: config.alpha.alphaBaseUrl,
+  apiKey: config.alpha.alphaApiKey,
+});
+const yahooFinance = new YahooFinance(config.yahoo.yahooBaseUrl);
 
 // Test the database connection
 Models.User.sequelize
@@ -29,4 +38,4 @@ app.listen(port, () => {
   console.log(`App running on http://localhost:${port}`);
 });
 
-module.exports = { sequelize };
+module.exports = { sequelize, alphaFinance, yahooFinance };
