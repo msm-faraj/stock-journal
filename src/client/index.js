@@ -1,4 +1,4 @@
-const { alphaFinance, yahooFinance } = require("../config.js");
+const { alphaFinance, yahooFinance } = require("../index.js");
 
 const searchWithAlpha = async (stockName) => {
   try {

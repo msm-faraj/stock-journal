@@ -8,11 +8,14 @@ class AlphaFinance {
 
   async getStockData(ticker) {
     try {
+      const TIME_SERIES_INTRADAY = "TIME_SERIES_INTRADAY";
+      const intervalTime = "1min";
+
       const response = await axios.get(this.baseURL, {
         params: {
-          function: "TIME_SERIES_INTRADAY",
+          function: TIME_SERIES_INTRADAY,
           symbol: ticker,
-          interval: "1min",
+          interval: intervalTime,
           apikey: this.apiKey,
         },
       });
