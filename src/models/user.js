@@ -14,9 +14,50 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      firstName: DataTypes.STRING,
-      lastName: DataTypes.STRING,
-      email: DataTypes.STRING,
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      firstName: {
+        type: DataTypes.STRING,
+      },
+      lastName: {
+        type: DataTypes.STRING,
+      },
+      email: {
+        type: DataTypes.STRING,
+      },
+      createdAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: DataTypes.DATE,
+      },
+      deletedAt: {
+        type: DataTypes.DATE,
+      },
+      role: {
+        type: DataTypes.STRING,
+      },
+      status: {
+        type: DataTypes.STRING,
+      },
+      passwordHash: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      jwt: {
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,
