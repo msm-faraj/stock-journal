@@ -1,5 +1,8 @@
 const axios = require("axios");
 
+const TIME_SERIES_INTRADAY = "TIME_SERIES_INTRADAY";
+const intervalTime = "1min";
+
 class AlphaFinance {
   constructor({ baseURL, apiKey }) {
     this.baseURL = baseURL;
@@ -8,9 +11,6 @@ class AlphaFinance {
 
   async getStockData(ticker) {
     try {
-      const TIME_SERIES_INTRADAY = "TIME_SERIES_INTRADAY";
-      const intervalTime = "1min";
-
       const response = await axios.get(this.baseURL, {
         params: {
           function: TIME_SERIES_INTRADAY,

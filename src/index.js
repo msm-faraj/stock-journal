@@ -5,6 +5,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelizeConfig = require("./sequelize-config.json")[env];
 const AlphaFinance = require("./client/fetch-alpha");
 const YahooFinance = require("./client/fetch-yahoo");
+const config = require("./config");
 
 const app = express();
 const port = 3000;
@@ -17,16 +18,11 @@ const sequelize = new Sequelize(
 );
 const Models = require("./models")(sequelize, DataTypes);
 
-const alphaBaseUrl = "https://www.alphavantage.co/query";
-const alphaApiKey = "YOUR_ALPHA_VANTAGE_API_KEY";
-
-const yahooBaseUrl = "https://query1.finance.yahoo.com/v7/finance/quote";
-
 const alphaFinance = new AlphaFinance({
-  baseURL: alphaBaseUrl,
-  apiKey: alphaApiKey,
+  baseURL: config.alpha.alphaBaseUrl,
+  apiKey: config.alpha.alphaApiKey,
 });
-const yahooFinance = new YahooFinance(yahooBaseUrl);
+const yahooFinance = new YahooFinance(config.yahoo.yahooBaseUrl);
 
 // Test the database connection
 Models.User.sequelize
