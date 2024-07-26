@@ -33,28 +33,6 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      profilePictureUrl: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      phoneNumber: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      gender: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      twoFactorSecret: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      status: {
-        type: Sequelize.ENUM,
-        values: ["active", "inactive", "suspended"],
-        allowNull: false,
-        defaultValue: "active",
-      },
       role: {
         type: Sequelize.ENUM,
         values: ["user", "admin", "superadmin"],
@@ -71,28 +49,12 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.NOW,
       },
-      dateOfBirth: {
-        type: Sequelize.DATE,
-        allowNull: true,
-      },
       lastLogin: {
         type: Sequelize.DATE,
         allowNull: true,
       },
       deletedAt: {
         type: Sequelize.DATE,
-        allowNull: true,
-      },
-      address: {
-        type: Sequelize.JSON,
-        allowNull: true,
-      },
-      preferences: {
-        type: Sequelize.JSON,
-        allowNull: true,
-      },
-      bio: {
-        type: Sequelize.TEXT,
         allowNull: true,
       },
     });
