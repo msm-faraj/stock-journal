@@ -1,12 +1,8 @@
-const { Sequelize, Datatypes, Model } = require("sequelize");
+const { DataTypes } = require("sequelize");
 
-module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
-    static associate(models) {
-      // assoiciations here
-    }
-  }
-  User.init(
+module.exports = (sequelize) => {
+  const User = sequelize.define(
+    "User",
     {
       id: {
         allowNull: false,
@@ -41,8 +37,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       role: {
-        type: DataTypes.ENUM,
-        values: ["user", "admin", "superadmin"],
+        type: DataTypes.ENUM("user", "admin", "superadmin"),
         allowNull: false,
         defaultValue: "user",
       },
@@ -66,9 +61,10 @@ module.exports = (sequelize, DataTypes) => {
       },
     },
     {
-      sequelize,
-      modelName: "User",
+      paranoid: true, // Enables soft deletes
+      tableName: "Users", // Optional: specify table name explicitly
     }
   );
+
   return User;
 };
