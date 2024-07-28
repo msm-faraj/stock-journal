@@ -1,11 +1,11 @@
 const express = require("express");
 const process = require("process");
+const config = require("./config");
 const env = process.env.NODE_ENV || "development";
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelizeConfig = require("./sequelize-config.json")[env];
 const AlphaFinance = require("./client/fetch-alpha");
 const YahooFinance = require("./client/fetch-yahoo");
-const config = require("./config");
 const authRouter = require("./routes/authRouter");
 
 const app = express();
@@ -31,7 +31,8 @@ Models.User.sequelize
   .then(() => console.log("Database connected..."))
   .catch((err) => console.log("Error: " + err));
 
-app.use("/api/auth", authRouter);
+app.use(express.json());
+app.use("/api/auth", authRouter(Models.User));
 
 app.get("/", async (req, res) => {
   res.send("Hello World...");

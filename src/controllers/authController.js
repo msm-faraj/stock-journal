@@ -6,6 +6,7 @@ class AuthController {
 
   async register(req, res) {
     let { username, password, email } = req.body;
+    // console.log(User);
     let user = await this.User.findOne({
       where: { email },
     });
@@ -18,6 +19,8 @@ class AuthController {
       password,
       email,
     });
+    await user.save();
+    return res.status(200).send(user);
   }
 }
 
