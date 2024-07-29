@@ -3,7 +3,7 @@ const reqHandler = (anyFunction) => {
     try {
       await anyFunction(req, res, next);
     } catch (error) {
-      console.error({ Error: error });
+      return { Error: error };
     }
   };
 };
