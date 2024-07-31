@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const reqHandler = require("../middlewares/req-handler");
+const reqValidator = require("../middlewares/req-vlaidator");
 const AuthController = require("../controllers/authController");
+const authSchema = require("../controllers/authSchema");
 
 module.exports = (User) => {
   const authController = new AuthController(User);
@@ -9,6 +11,7 @@ module.exports = (User) => {
 
   router.post(
     "/register",
+    reqValidator(authSchema.registerSchema),
     reqHandler(authController.register.bind(authController))
   );
 
