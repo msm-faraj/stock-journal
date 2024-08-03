@@ -1,16 +1,18 @@
-// function reqValidator(req, res, next) {
-//   console.log(req.body);
-//   next();
-// }
-// module.exports = reqValidator;
-
 const Joi = require("joi");
 
-const reqValidator = (schema) => {
+const validateRequest = (schema, property) => {
   return (req, res, next) => {
-    console.log(schema.body.validate(req.body).error.message);
+    const { error, value } = schema.validate(req[property]);
+    // console.log("req.body", req.body);
+    // console.log("req.params", req.params);
+    // console.log("req.query", req.query);
+
+    if (error) {
+      return res.status(400).json({ error: error });
+    }
+    console.log(value);
     next();
   };
 };
 
-module.exports = reqValidator;
+module.exports = validateRequest;

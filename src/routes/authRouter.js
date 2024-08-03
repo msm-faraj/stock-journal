@@ -11,7 +11,7 @@ module.exports = (User) => {
 
   router.post(
     "/register",
-    reqValidator(authSchema.registerSchema),
+    reqValidator(authSchema, "body"),
     reqHandler(authController.register.bind(authController))
   );
 
