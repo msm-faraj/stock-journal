@@ -4,8 +4,8 @@ const config = require("./config");
 const env = process.env.NODE_ENV || "development";
 const { Sequelize, DataTypes } = require("sequelize");
 const sequelizeConfig = require("./sequelize-config.json")[env];
-const AlphaFinance = require("./client/fetch-alpha");
-const YahooFinance = require("./client/fetch-yahoo");
+const AlphaFinance = require("./clients/fetch-alpha");
+const YahooFinance = require("./clients/fetch-yahoo");
 const authRouter = require("./routes/authRouter");
 
 const app = express();
