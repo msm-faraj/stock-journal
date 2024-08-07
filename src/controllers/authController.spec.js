@@ -44,7 +44,7 @@ describe("AuthController", () => {
 
         authController = new AuthController(
           { User: mockUserModel },
-          { bcrypt: mockBcrypt }
+          { authBcrypt: mockBcrypt }
         );
 
         await authController.register(mockReq, mockRes);

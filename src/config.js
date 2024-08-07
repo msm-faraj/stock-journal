@@ -1,4 +1,7 @@
 module.exports = {
+  authentication: {
+    salt: 10,
+  },
   alpha: {
     alphaApiKey: "YOUR_ALPHA_VANTAGE_API_KEY",
     alphaBaseUrl: "https://www.alphavantage.co/query",
