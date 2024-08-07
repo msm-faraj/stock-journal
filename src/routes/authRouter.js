@@ -6,7 +6,7 @@ const AuthController = require("../controllers/authController");
 const authSchema = require("../controllers/authSchema");
 
 module.exports = (User) => {
-  const authController = new AuthController(User);
+  const authController = new AuthController({ User }, {});
   const router = express.Router();
 
   router.post(
