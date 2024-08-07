@@ -23,7 +23,8 @@ describe("AuthController", () => {
         };
 
         mockRes = {
-          status: jest.fn().mockReturnValueOnce({ send: jest.fn() }),
+          status: jest.fn().mockReturnThis(),
+          send: jest.fn(),
           json: jest.fn(),
         };
 
@@ -34,10 +35,10 @@ describe("AuthController", () => {
 
         mockSalt = 10;
         mockHashedPass = "HashedPass";
-        mockHttpStatus = 200;
+        mockHttpStatus = httpStatus.OK;
 
         mockBcrypt = {
-          genSalt: jest.fn().mockResolvedValueOnce(mockSalt), //????
+          genSalt: jest.fn().mockResolvedValueOnce(mockSalt),
           hash: jest.fn().mockResolvedValueOnce(mockHashedPass),
         };
 
@@ -46,14 +47,14 @@ describe("AuthController", () => {
           { bcrypt: mockBcrypt }
         );
 
-        const result = await authController.register(mockReq, mockRes);
+        await authController.register(mockReq, mockRes);
       });
 
-      it("create a correct instnace of AuthController", () => {
+      it("creates a correct instance of AuthController", () => {
         expect(authController).toBeInstanceOf(AuthController);
       });
 
-      it("calls User.fineOne with correct parameters", () => {
+      it("calls User.findOne with correct parameters", () => {
         expect(mockUserModel.findOne).toHaveBeenCalledWith({
           where: { email: mockReq.body.email },
         });
@@ -83,7 +84,7 @@ describe("AuthController", () => {
       });
 
       it("calls res.status().send with correct params", () => {
-        expect(mockRes.status().send).toHaveBeenCalled();
+        expect(mockRes.status().send).toHaveBeenCalledWith(mockReq.body);
       });
     });
   });
