@@ -1,4 +1,3 @@
-const httpStatus = require("http-status");
 const AuthController = require("./authController");
 
 describe("AuthController", () => {
@@ -12,7 +11,7 @@ describe("AuthController", () => {
   let mockHttpStatus;
 
   describe("register", () => {
-    describe("when everything is successful", () => {
+    describe("When everything is successful", () => {
       beforeEach(async () => {
         mockReq = {
           body: {
@@ -35,7 +34,7 @@ describe("AuthController", () => {
 
         mockSalt = 10;
         mockHashedPass = "HashedPass";
-        mockHttpStatus = httpStatus.OK;
+        mockHttpStatus = 200;
 
         mockBcrypt = {
           genSalt: jest.fn().mockResolvedValueOnce(mockSalt),
