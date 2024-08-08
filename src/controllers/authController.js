@@ -1,8 +1,11 @@
 const bcrypt = require("bcrypt");
+const config = require("../config");
 const httpStatus = require("http-status");
+
 class AuthController {
-  constructor(Users) {
-    this.User = Users;
+  constructor({ User }, { authBcrypt = bcrypt }) {
+    this.User = User;
+    this.bcrypt = authBcrypt;
   }
 
   async register(req, res) {
@@ -13,15 +16,15 @@ class AuthController {
     if (user)
       return res
         .status(httpStatus.CONFLICT)
-        .send("A user already registered with this email.");
-    const salt = await bcrypt.genSalt(10);
-    password = await bcrypt.hash(password, salt);
+        .json({ message: "A user already registered with this email." });
+    const salt = await this.bcrypt.genSalt(config.authentication.salt);
+    const hashedPassword = await this.bcrypt.hash(password, salt);
+
     user = await this.User.create({
       username,
-      password,
+      password: hashedPassword,
       email,
     });
-    await user.save();
     return res.status(httpStatus.OK).send(user);
   }
 }
