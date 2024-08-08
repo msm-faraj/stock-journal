@@ -8,7 +8,8 @@ describe("AuthController", () => {
   let mockBcrypt;
   let mockSalt;
   let mockHashedPass;
-  let mockHttpStatus;
+  let mockHttpStatusOk;
+  let mockHttpStatusConflict;
 
   describe("register", () => {
     describe("When everything is successful", () => {
@@ -32,14 +33,14 @@ describe("AuthController", () => {
           create: jest.fn().mockResolvedValueOnce(mockReq.body),
         };
 
-        mockSalt = 10;
-        mockHashedPass = "HashedPass";
-        mockHttpStatus = 200;
-
         mockBcrypt = {
           genSalt: jest.fn().mockResolvedValueOnce(mockSalt),
           hash: jest.fn().mockResolvedValueOnce(mockHashedPass),
         };
+
+        mockSalt = 10;
+        mockHashedPass = "HashedPass";
+        mockHttpStatusOk = 200;
 
         authController = new AuthController(
           { User: mockUserModel },
@@ -79,11 +80,53 @@ describe("AuthController", () => {
       });
 
       it("calls res.status with correct params", () => {
-        expect(mockRes.status).toHaveBeenCalledWith(mockHttpStatus);
+        expect(mockRes.status).toHaveBeenCalledWith(mockHttpStatusOk);
       });
 
       it("calls res.status().send with correct params", () => {
         expect(mockRes.status().send).toHaveBeenCalledWith(mockReq.body);
+      });
+    });
+
+    describe("When email is already registered", () => {
+      beforeEach(async () => {
+        mockReq = {
+          body: {
+            email: "registered@example.com",
+          },
+        };
+        mockRes = {
+          status: jest.fn().mockReturnThis(),
+          json: jest.fn(),
+        };
+        mockHttpStatusConflict = 409;
+
+        mockUserModel = {
+          findOne: jest.fn().mockResolvedValueOnce({}),
+        };
+
+        authController = new AuthController(
+          { User: mockUserModel },
+          { authBcrypt: mockBcrypt }
+        );
+
+        await authController.register(mockReq, mockRes);
+      });
+
+      it("calls User.findOne with correct parameters", () => {
+        expect(mockUserModel.findOne).toHaveBeenCalledWith({
+          where: { email: mockReq.body.email },
+        });
+      });
+
+      it("calls res.status with correct params", () => {
+        expect(mockRes.status).toHaveBeenCalledWith(mockHttpStatusConflict);
+      });
+
+      it("calls res.status().json with correct params", () => {
+        expect(mockRes.status().json).toHaveBeenCalledWith({
+          message: "A user already registered with this email.",
+        });
       });
     });
   });
