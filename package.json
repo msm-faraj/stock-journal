@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "sequelize-cli db:migrate  && nodemon src/index.js ",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watchAll"
   },
   "author": "msm-faraj",
   "license": "ISC",

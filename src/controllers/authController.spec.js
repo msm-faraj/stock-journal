@@ -1,51 +1,63 @@
 const AuthController = require("./authController");
 
 describe("AuthController", () => {
-  let mockUserModel;
-  let authController;
   let mockReq;
   let mockRes;
-  let mockBcrypt;
   let mockSalt;
+  let mockBcrypt;
+  let mockUserModel;
+  let authController;
   let mockHashedPass;
   let mockHttpStatusOk;
+  let mockCatchedError;
   let mockHttpStatusConflict;
+
+  beforeEach(() => {
+    mockSalt = 10;
+    mockHashedPass = "HashedPass";
+    mockHttpStatusOk = 200;
+    mockHttpStatusConflict = 409;
+    mockHttpStatusBadRequest = 400;
+    mockHttpStatusInternalError = 500;
+
+    mockReq = {
+      body: {
+        username: "testuser",
+        password: "testpass123",
+        email: "test@example.com",
+      },
+    };
+
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn(),
+      json: jest.fn(),
+    };
+
+    mockUserModel = {
+      findOne: jest.fn(),
+      create: jest.fn(),
+    };
+
+    mockBcrypt = {
+      genSalt: jest.fn(),
+      hash: jest.fn(),
+    };
+
+    authController = new AuthController(
+      { User: mockUserModel },
+      { authBcrypt: mockBcrypt }
+    );
+  });
 
   describe("register", () => {
     describe("When everything is successful", () => {
       beforeEach(async () => {
-        mockReq = {
-          body: {
-            username: "testuser",
-            password: "testpass123",
-            email: "test@example.com",
-          },
-        };
+        mockUserModel.findOne.mockResolvedValueOnce(null);
+        mockUserModel.create.mockResolvedValueOnce(mockReq.body);
 
-        mockRes = {
-          status: jest.fn().mockReturnThis(),
-          send: jest.fn(),
-          json: jest.fn(),
-        };
-
-        mockUserModel = {
-          findOne: jest.fn().mockResolvedValueOnce(null),
-          create: jest.fn().mockResolvedValueOnce(mockReq.body),
-        };
-
-        mockBcrypt = {
-          genSalt: jest.fn().mockResolvedValueOnce(mockSalt),
-          hash: jest.fn().mockResolvedValueOnce(mockHashedPass),
-        };
-
-        mockSalt = 10;
-        mockHashedPass = "HashedPass";
-        mockHttpStatusOk = 200;
-
-        authController = new AuthController(
-          { User: mockUserModel },
-          { authBcrypt: mockBcrypt }
-        );
+        mockBcrypt.genSalt.mockResolvedValueOnce(mockSalt);
+        mockBcrypt.hash.mockResolvedValueOnce(mockHashedPass);
 
         await authController.register(mockReq, mockRes);
       });
@@ -95,20 +107,8 @@ describe("AuthController", () => {
             email: "registered@example.com",
           },
         };
-        mockRes = {
-          status: jest.fn().mockReturnThis(),
-          json: jest.fn(),
-        };
-        mockHttpStatusConflict = 409;
 
-        mockUserModel = {
-          findOne: jest.fn().mockResolvedValueOnce({}),
-        };
-
-        authController = new AuthController(
-          { User: mockUserModel },
-          { authBcrypt: mockBcrypt }
-        );
+        mockUserModel.findOne.mockResolvedValueOnce({});
 
         await authController.register(mockReq, mockRes);
       });
@@ -127,6 +127,37 @@ describe("AuthController", () => {
         expect(mockRes.status().json).toHaveBeenCalledWith({
           message: "A user already registered with this email.",
         });
+      });
+    });
+
+    describe("When there is thrown error", () => {
+      beforeEach(async () => {
+        try {
+          await authController.register(mockReq, mockRes);
+        } catch (error) {
+          mockCatchedError = error.message;
+        }
+      });
+
+      it("throws an error when bcrypt.genSalt fails", async () => {
+        mockBcrypt.genSalt.mockRejectedValueOnce(new Error("genSalt error"));
+        await expect(authController.register(mockReq, mockRes)).rejects.toThrow(
+          "genSalt error"
+        );
+      });
+
+      it("throws an error when bcrypt.hash fails", async () => {
+        mockBcrypt.hash.mockRejectedValueOnce(new Error("hash error"));
+        await expect(authController.register(mockReq, mockRes)).rejects.toThrow(
+          "hash error"
+        );
+      });
+
+      it("throws an error when User.create fails", async () => {
+        mockUserModel.create.mockRejectedValueOnce(new Error("create error"));
+        await expect(authController.register(mockReq, mockRes)).rejects.toThrow(
+          "create error"
+        );
       });
     });
   });
